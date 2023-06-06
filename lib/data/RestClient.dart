@@ -15,36 +15,35 @@ import 'package:path_provider/path_provider.dart';
 
 part 'RestClient.g.dart';
 
-
 @RestApi(baseUrl: "https://api.themoviedb.org/3/")
 abstract class RestClient {
   static late RestClient instance;
 
   static init() async {
     var cachePath = "";
+
+    // Web doesn't need temporary directory
     if (!kIsWeb) {
       var cacheDir = await getTemporaryDirectory();
       cachePath = cacheDir.path;
-    } else {
-      var cacheDir = "movies";
     }
 
-      var customCacheOptions = CacheOptions(
-        store: HiveCacheStore(
-          cachePath,
-          hiveBoxName: "movies",
-        ),
-        policy: CachePolicy.forceCache,
-        priority: CachePriority.high,
-        maxStale: const Duration(minutes: 5),
-        hitCacheOnErrorExcept: [401, 404],
-        keyBuilder: (request) {
-          return request.uri.toString();
-        },
-        allowPostMethod: false,
-      );
+    // Custom cache options
+    var customCacheOptions = CacheOptions(
+      store: HiveCacheStore(
+        cachePath,
+        hiveBoxName: "movies",
+      ),
+      policy: CachePolicy.forceCache,
+      priority: CachePriority.high,
+      hitCacheOnErrorExcept: [401, 404],
+      keyBuilder: (request) {
+        return request.uri.toString();
+      },
+      allowPostMethod: false,
+    );
 
-
+    // Initialize Dio, add interceptors, and set the `Authorization` header on requests
     instance = RestClient(Dio()
       ..interceptors.add(LogInterceptor(responseBody: true))
       ..interceptors.add(DioCacheInterceptor(options: customCacheOptions))

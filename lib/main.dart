@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
+        // provide all the cubits to the app
         providers: [
           BlocProvider<MoviesCubit>(
               create: (BuildContext context) => MoviesCubit()..loadNext()),
@@ -43,6 +44,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // decide which home to show based on orientation
     return MediaQuery.of(context).orientation == Orientation.portrait
         ? const PortraitHome()
         : const LandscapeHome();

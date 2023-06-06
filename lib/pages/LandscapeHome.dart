@@ -21,15 +21,19 @@ class LandscapeHome extends StatelessWidget {
               child: BlocBuilder<MoviesCubit, MoviesState>(
                   builder: (BuildContext context, MoviesState movieState) =>
                       movieState is MoviesLoaded
-                          ? MoviesGrid(movieState.movies, (Movie movie) {
+                          ? MoviesGrid(movieState.movies,
+                              //Callback when a movie is selected
+                              (Movie movie) {
                               context
                                   .read<SelectedMovieCubit>()
                                   .selectMovie(movie);
                               context.read<TrailersCubit>().loadTrailers();
                             })
                           : const Center(child: CircularProgressIndicator()))),
-          SizedBox(width: 10),
+
+          const SizedBox(width: 10),
           BlocBuilder<SelectedMovieCubit, Movie?>(
+            // Animate the width of the MovieDetails widget when a movie is selected
             builder: (BuildContext context, Movie? movie) => AnimatedContainer(
                 duration: const Duration(milliseconds: 500),
                 curve: Curves.easeInOut,

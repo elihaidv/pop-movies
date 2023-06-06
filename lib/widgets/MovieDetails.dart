@@ -34,19 +34,19 @@ class MovieDetails extends StatelessWidget {
           SliverList(
             delegate: SliverChildListDelegate([
               ListTile(
-                  leading: Icon(Icons.calendar_today),
+                  leading: const Icon(Icons.calendar_today),
                   title: Text(movie.releaseDate)),
               ListTile(
-                leading: Icon(Icons.description),
+                leading: const Icon(Icons.description),
                 title: Text(movie.overview),
               ),
               ListTile(
-                leading: Icon(Icons.star),
+                leading: const Icon(Icons.star),
                 title: Text(movie.voteAverage.toString()),
               ),
               if (movie.genres != null && movie.genres!.isNotEmpty)
                 ListTile(
-                    leading: Icon(Icons.movie),
+                    leading: const Icon(Icons.movie),
                     title: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
