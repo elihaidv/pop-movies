@@ -1,4 +1,4 @@
-# movies_test
+# Pop Movies App
 
 Movies App
 
